@@ -1,0 +1,71 @@
+/* -- RESET */
+
+/* --CUSTOM PROPS */
+
+:root {
+  --main-color: rgba(255, 0, 0, 0.236);
+
+  /* tail position and tail-sizing */
+  --square-size: 100px;
+}
+
+/* -- DEBUG */
+
+.db {
+  background-color: rgba(255, 0, 0, 0.236);
+  border: 3px dashed black;
+  background-clip: content-box;
+  /* min-height: 50px; */
+}
+
+.db-content > * {
+  background-color: rgba(255, 0, 0, 0.236);
+  border: 2px dotted black;
+  background-clip: content-box;
+  /* min-height: 50px; */
+}
+
+.db i::after {
+  content: "ℹ️";
+}
+
+/* ---------------------------------------- */
+
+#tails-wrapper {
+  /* width: calc(var(--square-size) * 6); */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tail.up {
+  height: calc(var(--square-size) / 2);
+  width: var(--square-size);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  background-color: brown;
+}
+.tail.down {
+  height: calc(var(--square-size) / 2);
+  width: var(--square-size);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  background-color: rgb(87, 42, 165);
+}
+.tail.left {
+  height: var(--square-size);
+  width: calc(var(--square-size) / 2);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  background-color: rgb(165, 42, 151);
+  margin-top: calc(var(--square-size) / 2 * -1);
+  margin-bottom: calc(var(--square-size) / 2 * -1);
+}
+.tail.right {
+  height: var(--square-size);
+  width: calc(var(--square-size) / 2);
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  background-color: rgb(56, 165, 42);
+  margin-top: calc(var(--square-size) / 2 * -1);
+  margin-bottom: calc(var(--square-size) / 2 * -1);
+}
+
+.tail:hover {
+  background-color: rgb(0, 0, 0);
+}
