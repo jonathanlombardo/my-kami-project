@@ -31,12 +31,26 @@
 
     <!-- --MY SCRIPT -->
     <script src="./JS/myfunc.js" defer></script>
+    <script src="./JS/schemes.js" defer></script>
     <script src="./JS/main.js" defer></script>
   </head>
 
   <body>
-    <h1 id="title">NewProject</h1>
-    <div id="tails-wrapper"></div>
-    <code id="js_result">JS result</code>
+    <div class="container">
+      <h1 id="title">MyKami</h1>
+      <a id="draw-mode">draw mode</a>
+      <a id="solve-mode">solve mode</a>
+      <div class="gameboard">
+        <div id="tails-wrapper"></div>
+        <div id="color-wrapper">
+          <div class="palet blue"></div>
+          <div class="palet black"></div>
+          <div class="palet yellow"></div>
+        </div>
+      </div>
+      <div id="selected-color" class="bottom-text">JS result</div>
+      <div id="scheme-dim" class="bottom-text"></div>
+      <a id="print-scheme" class="bottom-text">click to generate</a>
+    </div>
   </body>
 </html>

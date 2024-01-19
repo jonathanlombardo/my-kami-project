@@ -1,48 +1,69 @@
 // grid sizing
-const xDimension = 4;
-const yDimension = 6;
+let xDimension = 5;
+let yDimension = 5;
 
 const tailWrapperEl = document.querySelector("#tails-wrapper");
 tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension}`;
 
-// generate grid
-for (let r = 0; r < yDimension; r++) {
-  for (let c = 0; c < xDimension; c++) {
-    const newTailUp = document.createElement("div");
-    newTailUp.classList.add("tail", "up");
-    let index;
+const palets = document.querySelectorAll(".palet");
+const colorSelectionEl = document.querySelector("#selected-color");
+const gridDimEl = document.querySelector("#scheme-dim");
+const printSchemeEl = document.querySelector("#print-scheme");
+const drawModeBtn = document.querySelector("#draw-mode");
+const solveModeBtn = document.querySelector("#solve-mode");
 
-    index = `${r}-${c}-up`;
-    newTailUp.setAttribute("data-tail-index", index);
+let currentColor = "blue";
+let solveMode = true;
+solveModeBtn.classList.add("mode-on");
 
-    tailWrapperEl.append(newTailUp);
-  }
+colorSelectionEl.innerText = currentColor;
+gridDimEl.innerText = `scheme ${xDimension} x ${yDimension}`;
 
-  for (let c = 0; c < xDimension; c++) {
-    const newTailLeft = document.createElement("div");
-    newTailLeft.classList.add("tail", "left");
-    let index;
+// generate
+generateGrid(xDimension, yDimension, tailWrapperEl);
+const tails = document.querySelectorAll(".tail");
 
-    index = `${r}-${c}-left`;
-    newTailLeft.setAttribute("data-tail-index", index);
+// load
+loadScheme(schemeTest);
 
-    const newTailRight = document.createElement("div");
-    newTailRight.classList.add("tail", "right");
+// # drow listener
+drawModeBtn.addEventListener("click", function () {
+  solveMode = false;
+  drawModeBtn.classList.toggle("mode-on");
+  solveModeBtn.classList.toggle("mode-on");
+});
 
-    index = `${r}-${c}-right`;
-    newTailRight.setAttribute("data-tail-index", index);
+// # solve listener
+solveModeBtn.addEventListener("click", function () {
+  solveMode = true;
+  drawModeBtn.classList.toggle("mode-on");
+  solveModeBtn.classList.toggle("mode-on");
+});
 
-    tailWrapperEl.append(newTailLeft);
-    tailWrapperEl.append(newTailRight);
-  }
+// # print listener
+printSchemeEl.addEventListener("click", function () {
+  getScheme();
+});
 
-  for (let c = 0; c < xDimension; c++) {
-    const newTailDown = document.createElement("div");
-    newTailDown.classList.add("tail", "down");
-    let index;
+// # palet listener
+for (let i = 0; i < palets.length; i++) {
+  const palet = palets[i];
 
-    index = `${r}-${c}-down`;
-    newTailDown.setAttribute("data-tail-index", index);
-    tailWrapperEl.append(newTailDown);
-  }
+  palet.addEventListener("click", function () {
+    currentColor = palet.classList[1];
+    colorSelectionEl.innerText = currentColor;
+  });
+}
+
+// #tails listener
+for (let i = 0; i < tails.length; i++) {
+  const tail = tails[i];
+
+  tail.addEventListener("click", function () {
+    if (solveMode) {
+      solveTails(this, currentColor);
+    } else {
+      tail.style.backgroundColor = currentColor;
+    }
+  });
 }
