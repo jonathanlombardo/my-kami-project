@@ -18,7 +18,7 @@ a {
 
   /* tail position and tail-sizing */
   --square-size: 100px;
-  --border-size: 1px;
+  --border-size: 2px;
 }
 
 /* -- DEBUG */
@@ -68,7 +68,7 @@ a {
 
   clip-path: polygon(0 0, 50% 100%, 100% 0);
 
-  margin-right: var(--border-size);
+  margin-right: calc(var(--border-size) / 2);
 }
 .tail.down {
   height: calc(var(--square-size) / 2);
@@ -76,8 +76,8 @@ a {
 
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
 
-  margin-bottom: var(--border-size);
-  margin-right: var(--border-size);
+  margin-bottom: calc(var(--border-size) / 2);
+  margin-right: calc(var(--border-size) / 2);
 }
 .tail.left {
   height: var(--square-size);
@@ -96,7 +96,7 @@ a {
 
   margin-top: calc((var(--square-size) / 2 - var(--border-size)) * -1);
   margin-bottom: calc((var(--square-size) / 2 - var(--border-size)) * -1);
-  margin-right: var(--border-size);
+  margin-right: calc(var(--border-size) / 2);
   /* margin-left: var(--border-size); */
 }
 
