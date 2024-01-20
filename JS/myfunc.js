@@ -37,7 +37,7 @@ function getNearTails(element) {
 }
 
 function generateGrid(xDimension, yDimension, tailWrapperEl) {
-  tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * ${xDimension}))`;
+  tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * 3 * ${xDimension}))`;
 
   // generate grid
   for (let r = 0; r < yDimension; r++) {
