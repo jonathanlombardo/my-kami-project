@@ -18,6 +18,7 @@ a {
 
   /* tail position and tail-sizing */
   --square-size: 100px;
+  --border-size: 1px;
 }
 
 /* -- DEBUG */
@@ -53,42 +54,50 @@ a {
 }
 
 .tail {
-  background-color: brown;
+  /* background-color: brown; */
+  transition: background-color 0.2s;
+}
+
+.tail:hover {
+  opacity: 0.8;
 }
 
 .tail.up {
   height: calc(var(--square-size) / 2);
   width: var(--square-size);
+
   clip-path: polygon(0 0, 50% 100%, 100% 0);
-  /* background-color: brown; */
+
+  margin-right: var(--border-size);
 }
 .tail.down {
   height: calc(var(--square-size) / 2);
   width: var(--square-size);
+
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  /* background-color: rgb(87, 42, 165); */
+
+  margin-bottom: var(--border-size);
+  margin-right: var(--border-size);
 }
 .tail.left {
   height: var(--square-size);
   width: calc(var(--square-size) / 2);
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-  /* background-color: rgb(165, 42, 151); */
 
-  margin-top: calc(var(--square-size) / 2 * -1);
-  margin-bottom: calc(var(--square-size) / 2 * -1);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+
+  margin-top: calc((var(--square-size) / 2 - var(--border-size)) * -1);
+  margin-bottom: calc((var(--square-size) / 2 - var(--border-size)) * -1);
 }
 .tail.right {
   height: var(--square-size);
   width: calc(var(--square-size) / 2);
+
   clip-path: polygon(100% 0, 0 50%, 100% 100%);
-  /* background-color: rgb(56, 165, 42); */
 
-  margin-top: calc(var(--square-size) / 2 * -1);
-  margin-bottom: calc(var(--square-size) / 2 * -1);
-}
-
-.tail:hover {
-  background-color: rgb(0, 0, 0);
+  margin-top: calc((var(--square-size) / 2 - var(--border-size)) * -1);
+  margin-bottom: calc((var(--square-size) / 2 - var(--border-size)) * -1);
+  margin-right: var(--border-size);
+  /* margin-left: var(--border-size); */
 }
 
 .gameboard {

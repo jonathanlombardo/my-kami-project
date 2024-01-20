@@ -37,7 +37,7 @@ function getNearTails(element) {
 }
 
 function generateGrid(xDimension, yDimension, tailWrapperEl) {
-  tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension}`;
+  tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * ${xDimension}))`;
 
   // generate grid
   for (let r = 0; r < yDimension; r++) {
@@ -135,11 +135,13 @@ function solveTails(element, currentColor) {
   const activeColor = element.style.backgroundColor;
   const tailsToFind = [element];
 
-  const tailsToSolve = findTailsToSolve(element, activeColor, tailsToFind);
+  const tailsToSolve = findTailsToSolve(element, activeColor, tailsToFind).sort();
   console.log(tailsToSolve);
 
   for (let i = 0; i < tailsToSolve.length; i++) {
-    tailsToSolve[i].style.backgroundColor = currentColor;
+    setTimeout(() => {
+      tailsToSolve[i].style.backgroundColor = currentColor;
+    }, `${0.5 + i * 10}`);
   }
 }
 
