@@ -3,6 +3,8 @@ let xDimension = 5;
 let yDimension = 5;
 
 const tailWrapperEl = document.querySelector("#tails-wrapper");
+const paletsWrapperEl = document.querySelector("#color-wrapper");
+
 tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension}`;
 
 const palets = document.querySelectorAll(".palet");
@@ -12,19 +14,20 @@ const printSchemeEl = document.querySelector("#print-scheme");
 const drawModeBtn = document.querySelector("#draw-mode");
 const solveModeBtn = document.querySelector("#solve-mode");
 
-let currentColor = "blue";
+let currentColor;
 let solveMode = true;
 solveModeBtn.classList.add("mode-on");
 
-colorSelectionEl.innerText = currentColor;
+colorSelectionEl.innerText = "Seleziona un colore";
 gridDimEl.innerText = `scheme ${xDimension} x ${yDimension}`;
 
 // generate
 generateGrid(xDimension, yDimension, tailWrapperEl);
+generatePalets(paletsWrapperEl, 5, globalColors, colorSelectionEl);
 const tails = document.querySelectorAll(".tail");
 
 // load
-loadScheme(schemeTest);
+loadScheme(schemes[1]);
 
 // # drow listener
 drawModeBtn.addEventListener("click", function () {
@@ -45,25 +48,19 @@ printSchemeEl.addEventListener("click", function () {
   getScheme();
 });
 
-// # palet listener
-for (let i = 0; i < palets.length; i++) {
-  const palet = palets[i];
-
-  palet.addEventListener("click", function () {
-    currentColor = palet.classList[1];
-    colorSelectionEl.innerText = currentColor;
-  });
-}
-
 // #tails listener
 for (let i = 0; i < tails.length; i++) {
   const tail = tails[i];
 
   tail.addEventListener("click", function () {
+    console.log(currentColor);
+
     if (solveMode) {
       solveTails(this, currentColor);
     } else {
       tail.style.backgroundColor = currentColor;
+      // tail.style.backgroundColor = `blue`;
+      console.log(tail.style.backgroundColor);
     }
   });
 }

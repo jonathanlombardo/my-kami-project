@@ -109,15 +109,15 @@ a {
 }
 
 .palet.blue {
-  background-color: blue;
+  background-color: rgb(29, 159, 225);
 }
 
-.palet.black {
-  background-color: black;
+.palet.green {
+  background-color: rgb(25, 242, 83);
 }
 
 .palet.yellow {
-  background-color: yellow;
+  background-color: rgb(227, 231, 29);
 }
 
 #draw-mode,

@@ -157,3 +157,25 @@ function findTailsToSolve(element, activeColor, tailsToFind) {
 
   return tailsToFind;
 }
+
+function generatePalets(container, qty, colorsPalets, colorSelectionEl) {
+  // let currentColor;
+
+  for (let i = 0; i < qty; i++) {
+    const newPalet = document.createElement("div");
+    newPalet.classList.add("palet");
+    newPalet.style.backgroundColor = colorsPalets[i][1];
+
+    newPalet.addEventListener("click", function () {
+      currentColor = colorsPalets[i][1];
+      colorSelectionEl.innerText = colorsPalets[i][0];
+
+      console.log(currentColor);
+    });
+    container.append(newPalet);
+  }
+}
+
+// function getPalets(){
+
+// }
