@@ -1,66 +1,41 @@
-// grid sizing
-let xDimension = 5;
-let yDimension = 5;
-
 const tailWrapperEl = document.querySelector("#tails-wrapper");
 const paletsWrapperEl = document.querySelector("#color-wrapper");
 
-tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension}`;
-
-const palets = document.querySelectorAll(".palet");
-const colorSelectionEl = document.querySelector("#selected-color");
-const gridDimEl = document.querySelector("#scheme-dim");
-const printSchemeEl = document.querySelector("#print-scheme");
+const modeWrapperEl = document.querySelector("#mode-wrapper");
 const drawModeBtn = document.querySelector("#draw-mode");
 const solveModeBtn = document.querySelector("#solve-mode");
 
+const textColorSelectedEl = document.querySelector("#selected-color");
+const gridDimEl = document.querySelector("#scheme-dim");
+const printSchemeEl = document.querySelector("#print-scheme");
+
+// Empty scheme
+// let schemeOnLoad = ["5x5"];
+
+// Filled scheme
+// let schemeOnLoad = schemes[0];
+
+let schemeOnLoad = schemes[1];
 let currentColor;
 let solveMode = true;
+let tailClickOff = false;
+
 solveModeBtn.classList.add("mode-on");
 
-colorSelectionEl.innerText = "Seleziona un colore";
-gridDimEl.innerText = `scheme ${xDimension} x ${yDimension}`;
+textColorSelectedEl.innerText = "Seleziona un colore";
+gridDimEl.innerText = `scheme ${getSchemeDimensionX(schemeOnLoad)} x ${getSchemeDimensionY(schemeOnLoad)}`;
 
-// generate
-generateGrid(xDimension, yDimension, tailWrapperEl);
-generatePalets(paletsWrapperEl, 5, globalColors, colorSelectionEl);
-const tails = document.querySelectorAll(".tail");
+generateGrid(schemeOnLoad, tailWrapperEl);
+generatePalets(paletsWrapperEl, schemeOnLoad, textColorSelectedEl);
 
-// load
-loadScheme(schemes[1]);
-
-// # drow listener
-drawModeBtn.addEventListener("click", function () {
-  solveMode = false;
-  drawModeBtn.classList.toggle("mode-on");
-  solveModeBtn.classList.toggle("mode-on");
-});
-
-// # solve listener
-solveModeBtn.addEventListener("click", function () {
-  solveMode = true;
+// # mode listener
+modeWrapperEl.addEventListener("click", function () {
+  solveMode = !solveMode;
   drawModeBtn.classList.toggle("mode-on");
   solveModeBtn.classList.toggle("mode-on");
 });
 
 // # print listener
 printSchemeEl.addEventListener("click", function () {
-  getScheme();
+  getScheme(schemeOnLoad);
 });
-
-// #tails listener
-for (let i = 0; i < tails.length; i++) {
-  const tail = tails[i];
-
-  tail.addEventListener("click", function () {
-    console.log(currentColor);
-
-    if (solveMode) {
-      solveTails(this, currentColor);
-    } else {
-      tail.style.backgroundColor = currentColor;
-      // tail.style.backgroundColor = `blue`;
-      console.log(tail.style.backgroundColor);
-    }
-  });
-}

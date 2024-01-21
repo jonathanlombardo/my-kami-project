@@ -1,5 +1,3 @@
-// # RETURN NEAR TAILS ELEMENTS FROM DATA-INDEX
-
 function getNearTails(element) {
   const nearTails = [];
   let near1;
@@ -36,7 +34,22 @@ function getNearTails(element) {
   return nearTails;
 }
 
-function generateGrid(xDimension, yDimension, tailWrapperEl) {
+function addTailListener(tail) {
+  tail.addEventListener("click", function () {
+    if (!tailClickOff) {
+      if (solveMode) {
+        solveTails(this, currentColor);
+      } else {
+        tail.style.backgroundColor = currentColor;
+      }
+    }
+  });
+}
+
+function generateGrid(scheme, tailWrapperEl) {
+  const xDimension = getSchemeDimensionX(scheme);
+  const yDimension = getSchemeDimensionY(scheme);
+
   tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * 3 * ${xDimension}))`;
 
   // generate grid
@@ -49,6 +62,7 @@ function generateGrid(xDimension, yDimension, tailWrapperEl) {
       index = `${r}-${c}-up`;
       newTailUp.setAttribute("data-tail-index", index);
 
+      addTailListener(newTailUp);
       tailWrapperEl.append(newTailUp);
     }
 
@@ -66,6 +80,9 @@ function generateGrid(xDimension, yDimension, tailWrapperEl) {
       index = `${r}-${c}-right`;
       newTailRight.setAttribute("data-tail-index", index);
 
+      addTailListener(newTailLeft);
+      addTailListener(newTailRight);
+
       tailWrapperEl.append(newTailLeft);
       tailWrapperEl.append(newTailRight);
     }
@@ -77,9 +94,14 @@ function generateGrid(xDimension, yDimension, tailWrapperEl) {
 
       index = `${r}-${c}-down`;
       newTailDown.setAttribute("data-tail-index", index);
+
+      addTailListener(newTailDown);
+
       tailWrapperEl.append(newTailDown);
     }
   }
+
+  loadScheme(scheme);
 }
 
 /**
@@ -105,20 +127,23 @@ function generateIndexString(row, col, side) {
   return `${row}-${col}-${side}`;
 }
 
-function getScheme() {
+function getScheme(scheme) {
   const tails = document.querySelectorAll(".tail");
-  let text = `// scheme ${xDimension} x ${yDimension}\n\n`;
+  let text = `["${getSchemeDimensionX(scheme)}x${getSchemeDimensionY(scheme)}", `;
 
   for (let i = 0; i < tails.length; i++) {
     const tail = tails[i];
-
-    text += `"${tail.style.backgroundColor}",\n`;
+    if (i == tails.length - 1) {
+      text += `"${tail.style.backgroundColor}"],`;
+    } else {
+      text += `"${tail.style.backgroundColor}", `;
+    }
   }
 
   navigator.clipboard.writeText(text);
   alert("Schema copiato negli appunti");
 
-  return text;
+  // return text;
 }
 
 function loadScheme(scheme) {
@@ -127,22 +152,43 @@ function loadScheme(scheme) {
   for (let i = 0; i < tails.length; i++) {
     const tail = tails[i];
 
-    tail.style.backgroundColor = scheme[i];
+    tail.style.backgroundColor = scheme[i + 1] ? scheme[i + 1] : `var(--empty-tail-color)`;
   }
 }
 
+function getSchemeDimensionX(scheme) {
+  const stringDim = scheme[0];
+  const xDimension = stringDim.split("x")[0];
+
+  return xDimension;
+}
+
+function getSchemeDimensionY(scheme) {
+  const stringDim = scheme[0];
+  const yDimension = stringDim.split("x")[1];
+
+  return yDimension;
+}
+
 function solveTails(element, currentColor) {
+  tailClickOff = true;
   const activeColor = element.style.backgroundColor;
   const tailsToFind = [element];
-
   const tailsToSolve = findTailsToSolve(element, activeColor, tailsToFind).sort();
-  console.log(tailsToSolve);
+
+  let delay;
 
   for (let i = 0; i < tailsToSolve.length; i++) {
+    delay = 0.5 + i * 10;
+
     setTimeout(() => {
       tailsToSolve[i].style.backgroundColor = currentColor;
-    }, `${0.5 + i * 10}`);
+    }, `${delay}`);
   }
+
+  setTimeout(() => {
+    tailClickOff = false;
+  }, `${delay}`);
 }
 
 function findTailsToSolve(element, activeColor, tailsToFind) {
@@ -151,7 +197,7 @@ function findTailsToSolve(element, activeColor, tailsToFind) {
   for (let i = 0; i < nearTails.length; i++) {
     const nearTail = nearTails[i];
     if (nearTail.style.backgroundColor == activeColor && !tailsToFind.includes(nearTail)) {
-      console.log(nearTail);
+      // console.log(nearTail);
       tailsToFind.push(nearTail);
       findTailsToSolve(nearTail, activeColor, tailsToFind);
     }
@@ -160,24 +206,45 @@ function findTailsToSolve(element, activeColor, tailsToFind) {
   return tailsToFind;
 }
 
-function generatePalets(container, qty, colorsPalets, colorSelectionEl) {
-  // let currentColor;
+function generatePalets(container, scheme, colorSelectionEl) {
+  const qty = getPalets(scheme).length;
 
   for (let i = 0; i < qty; i++) {
     const newPalet = document.createElement("div");
     newPalet.classList.add("palet");
-    newPalet.style.backgroundColor = colorsPalets[i][1];
+    newPalet.style.backgroundColor = getPalets(scheme)[i][1];
 
     newPalet.addEventListener("click", function () {
-      currentColor = colorsPalets[i][1];
-      colorSelectionEl.innerText = colorsPalets[i][0];
+      currentColor = getPalets(scheme)[i][1];
+      colorSelectionEl.innerText = getPalets(scheme)[i][0];
 
-      console.log(currentColor);
+      // console.log(currentColor);
     });
     container.append(newPalet);
   }
 }
 
-// function getPalets(){
+function getPalets(scheme) {
+  const paletsColors = [];
+  let paletsInside = [];
 
-// }
+  for (let i = 1; i < scheme.length; i++) {
+    const schemeColor = scheme[i];
+
+    if (!paletsColors.includes(scheme[i])) {
+      paletsColors.push(schemeColor);
+
+      for (let i = 0; i < globalColors.length; i++) {
+        if (globalColors[i][1] == schemeColor) paletsInside.push(globalColors[i]);
+      }
+    }
+  }
+
+  if (paletsInside.length == 0) paletsInside = globalColors;
+
+  return paletsInside;
+
+  // paletsInside[..][0] color name
+  // paletsInside[..][1] color code
+  // paletsInside.lenght palet qty
+}

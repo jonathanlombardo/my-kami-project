@@ -14,10 +14,10 @@ a {
 /* --CUSTOM PROPS */
 
 :root {
-  --main-color: rgba(255, 0, 0, 0.236);
+  --empty-tail-color: rgb(124, 124, 124);
 
   /* tail position and tail-sizing */
-  --square-size: 100px;
+  --square-size: 70px;
   --border-size: 1px;
 }
 
@@ -121,7 +121,7 @@ a {
   cursor: pointer;
 }
 
-.palet.blue {
+/* .palet.blue {
   background-color: rgb(29, 159, 225);
 }
 
@@ -131,10 +131,8 @@ a {
 
 .palet.yellow {
   background-color: rgb(227, 231, 29);
-}
+} */
 
-#draw-mode,
-#solve-mode,
 .bottom-text {
   padding: 10px;
   margin: 10px 10px 10px 0;
@@ -144,6 +142,9 @@ a {
 #solve-mode {
   border: 1px solid black;
   display: inline-block;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
 }
 
 .mode-on {
