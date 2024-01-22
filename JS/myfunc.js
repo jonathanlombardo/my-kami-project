@@ -50,7 +50,9 @@ function generateGrid(scheme, tailWrapperEl) {
   const xDimension = getSchemeDimensionX(scheme);
   const yDimension = getSchemeDimensionY(scheme);
 
+  tailWrapperEl.innerHTML = ``;
   tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * 3 * ${xDimension}))`;
+  tailWrapperEl.classList.add("active");
 
   // generate grid
   for (let r = 0; r < yDimension; r++) {
@@ -207,6 +209,7 @@ function findTailsToSolve(element, activeColor, tailsToFind) {
 }
 
 function generatePalets(container, scheme) {
+  container.innerHTML = ``;
   const qty = getPalets(scheme).length;
 
   for (let i = 0; i < qty; i++) {
@@ -259,4 +262,33 @@ function getPalets(scheme) {
   // paletsInside[..][0] color name
   // paletsInside[..][1] color code
   // paletsInside.lenght palet qty
+}
+
+function generateLevelsView(container) {
+  const title = document.createElement("h3");
+  title.innerText = "SELEZIONA IL LIVELLO";
+  title.className = "text-primary";
+  container.append(title);
+
+  for (let i = 0; i < schemes.length; i++) {
+    const newBtn = document.createElement("div");
+    newBtn.className = "btn btn-outline-primary";
+    newBtn.innerText = `Level ${i + 1}`;
+    printSchemeEl.classList.add("d-none");
+    modeWrapperEl.classList.add("d-none");
+    backBtn.classList.add("d-none");
+
+    newBtn.addEventListener("click", function () {
+      schemeOnLoad = schemes[i];
+      printSchemeEl.classList.remove("d-none");
+      modeWrapperEl.classList.remove("d-none");
+      backBtn.classList.remove("d-none");
+
+      generateGrid(schemeOnLoad, tailWrapperEl);
+      generatePalets(paletsWrapperEl, schemeOnLoad);
+      container.innerHTML = ``;
+    });
+
+    container.append(newBtn);
+  }
 }

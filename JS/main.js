@@ -1,5 +1,7 @@
 const tailWrapperEl = document.querySelector("#tails-wrapper");
 const paletsWrapperEl = document.querySelector("#color-wrapper");
+const btnWrapperEl = document.querySelector("#btn-wrapper");
+const backBtn = document.querySelector("#back-button");
 
 const modeWrapperEl = document.querySelector("#mode-wrapper");
 const drawModeBtn = document.querySelector("#draw-mode");
@@ -13,15 +15,17 @@ const printSchemeEl = document.querySelector("#print-scheme");
 // Filled scheme
 // let schemeOnLoad = schemes[0];
 
-let schemeOnLoad = schemes[1];
+let schemeOnLoad = schemes[0];
 let currentColor;
 let solveMode = true;
 let tailClickOff = false;
 
 solveModeBtn.classList.add("mode-on");
 
-generateGrid(schemeOnLoad, tailWrapperEl);
-generatePalets(paletsWrapperEl, schemeOnLoad);
+generateLevelsView(btnWrapperEl);
+
+// generateGrid(schemeOnLoad, tailWrapperEl);
+// generatePalets(paletsWrapperEl, schemeOnLoad);
 
 // # mode listener
 modeWrapperEl.addEventListener("click", function () {
@@ -33,4 +37,13 @@ modeWrapperEl.addEventListener("click", function () {
 // # print listener
 printSchemeEl.addEventListener("click", function () {
   getScheme(schemeOnLoad);
+});
+
+// # back listener
+backBtn.addEventListener("click", function () {
+  generateLevelsView(btnWrapperEl);
+  tailWrapperEl.innerHTML = ``;
+  tailWrapperEl.classList.remove("active");
+
+  paletsWrapperEl.innerHTML = ``;
 });
