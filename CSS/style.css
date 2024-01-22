@@ -15,6 +15,8 @@ a {
 
 :root {
   --empty-tail-color: rgb(124, 124, 124);
+  --main-color: rgb(81, 180, 255);
+  --main-text-color: rgb(20, 139, 230);
 
   /* tail position and tail-sizing */
   --square-size: 70px;
@@ -51,6 +53,11 @@ a {
   /* width: calc(var(--square-size) * 6); */
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
+
+  box-sizing: content-box;
+  padding: 10px;
+  border: 3px solid var(--main-color);
 }
 
 .tail {
@@ -106,19 +113,37 @@ a {
 
 .gameboard {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 #color-wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
+  gap: 10px;
+  align-items: center;
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  /* flex-grow: 1; */
+  margin: auto;
 }
 
 .palet {
-  flex-grow: 1;
+  /* flex-grow: 1; */
   cursor: pointer;
+  height: 100px;
+  width: 100px;
+  border: 3px solid var(--empty-tail-color);
+  background-clip: content-box;
+  padding: 5px;
+}
+
+.palet.active {
+  border-color: var(--main-color);
+  border-width: 5px;
+  scale: 1.1;
+
+  height: 110px;
+  width: 110px;
 }
 
 /* .palet.blue {
@@ -140,14 +165,21 @@ a {
 
 #draw-mode,
 #solve-mode {
-  border: 1px solid black;
+  /* border: 3px solid; */
+  color: var(--main-color);
+  font-weight: 600;
   display: inline-block;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
 }
 
+#mode-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .mode-on {
-  background-color: black;
-  color: white;
+  background-color: var(--main-color);
+  color: white !important;
 }

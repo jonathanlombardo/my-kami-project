@@ -5,8 +5,6 @@ const modeWrapperEl = document.querySelector("#mode-wrapper");
 const drawModeBtn = document.querySelector("#draw-mode");
 const solveModeBtn = document.querySelector("#solve-mode");
 
-const textColorSelectedEl = document.querySelector("#selected-color");
-const gridDimEl = document.querySelector("#scheme-dim");
 const printSchemeEl = document.querySelector("#print-scheme");
 
 // Empty scheme
@@ -22,11 +20,8 @@ let tailClickOff = false;
 
 solveModeBtn.classList.add("mode-on");
 
-textColorSelectedEl.innerText = "Seleziona un colore";
-gridDimEl.innerText = `scheme ${getSchemeDimensionX(schemeOnLoad)} x ${getSchemeDimensionY(schemeOnLoad)}`;
-
 generateGrid(schemeOnLoad, tailWrapperEl);
-generatePalets(paletsWrapperEl, schemeOnLoad, textColorSelectedEl);
+generatePalets(paletsWrapperEl, schemeOnLoad);
 
 // # mode listener
 modeWrapperEl.addEventListener("click", function () {

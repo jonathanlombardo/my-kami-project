@@ -206,7 +206,7 @@ function findTailsToSolve(element, activeColor, tailsToFind) {
   return tailsToFind;
 }
 
-function generatePalets(container, scheme, colorSelectionEl) {
+function generatePalets(container, scheme) {
   const qty = getPalets(scheme).length;
 
   for (let i = 0; i < qty; i++) {
@@ -216,10 +216,22 @@ function generatePalets(container, scheme, colorSelectionEl) {
 
     newPalet.addEventListener("click", function () {
       currentColor = getPalets(scheme)[i][1];
-      colorSelectionEl.innerText = getPalets(scheme)[i][0];
+      // colorSelectionEl.innerText = getPalets(scheme)[i][0];
 
-      // console.log(currentColor);
+      const allPalets = document.querySelectorAll(".palet");
+
+      for (let i = 0; i < allPalets.length; i++) {
+        allPalets[i].classList.remove("active");
+      }
+
+      this.classList.add("active");
     });
+
+    if (i == 0) {
+      newPalet.classList.add("active");
+      currentColor = getPalets(scheme)[i][1];
+      // colorSelectionEl.innerText = getPalets(scheme)[i][0];
+    }
     container.append(newPalet);
   }
 }
