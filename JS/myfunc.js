@@ -146,8 +146,9 @@ function getScheme(scheme) {
     const tail = tails[i];
     if (i == tails.length - 1) {
       text += `
-      "${tail.style.backgroundColor}"],
-      },`;
+      "${tail.style.backgroundColor}", ],
+      },
+      `;
     } else {
       text += `"${tail.style.backgroundColor}", `;
     }
