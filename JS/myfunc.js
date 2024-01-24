@@ -37,6 +37,8 @@ function addTailListener(tail) {
   tail.addEventListener("click", function () {
     if (!tailClickOff) {
       if (solveMode) {
+        currentMoves++;
+        scoreEl.innerText = `Moves ${currentMoves} / ${schemeOnLoad.maxMoves}`;
         solveTails(this, currentColor);
       } else {
         tail.style.backgroundColor = currentColor;
@@ -48,6 +50,10 @@ function addTailListener(tail) {
 function generateGrid(scheme, tailWrapperEl) {
   const xDimension = scheme.row;
   const yDimension = scheme.col;
+  tailClickOff = false;
+  currentMoves = 0;
+
+  scoreEl.innerText = `Moves ${currentMoves} / ${scheme.maxMoves}`;
 
   tailWrapperEl.innerHTML = ``;
   tailWrapperEl.style.width = `calc(var(--square-size) * ${xDimension} + (var(--border-size) * 3 * ${xDimension}))`;
@@ -179,7 +185,19 @@ function solveTails(element, currentColor) {
     }, `${delay}`);
   }
 
+  delay++;
+
   setTimeout(() => {
+    if (isPuzzleComplete()) {
+      endGame(true);
+      return;
+    }
+
+    if (currentMoves == schemeOnLoad.maxMoves) {
+      endGame(false);
+      return;
+    }
+
     tailClickOff = false;
   }, `${delay}`);
 }
@@ -260,20 +278,24 @@ function generateLevelsView(container) {
   title.innerText = "SELEZIONA IL LIVELLO";
   title.className = "text-primary";
   container.append(title);
+  printSchemeEl.classList.add("d-none");
+  // modeWrapperEl.classList.add("d-none");
+  backBtn.classList.add("d-none");
+  scoreEl.classList.add("d-none");
+  restartBtn.classList.add("d-none");
 
   for (let i = 0; i < schemes.length; i++) {
     const newBtn = document.createElement("div");
     newBtn.className = "btn btn-outline-primary";
     newBtn.innerText = `Level ${i + 1}`;
-    printSchemeEl.classList.add("d-none");
-    modeWrapperEl.classList.add("d-none");
-    backBtn.classList.add("d-none");
 
     newBtn.addEventListener("click", function () {
       schemeOnLoad = schemes[i];
       printSchemeEl.classList.remove("d-none");
-      modeWrapperEl.classList.remove("d-none");
+      // modeWrapperEl.classList.remove("d-none");
       backBtn.classList.remove("d-none");
+      scoreEl.classList.remove("d-none");
+      restartBtn.classList.remove("d-none");
 
       generateGrid(schemeOnLoad, tailWrapperEl);
       generatePalets(paletsWrapperEl, schemeOnLoad);
@@ -282,4 +304,23 @@ function generateLevelsView(container) {
 
     container.append(newBtn);
   }
+}
+
+function isPuzzleComplete() {
+  const tails = document.querySelectorAll(".tail");
+  const tailsColor = tails[0].style.backgroundColor;
+  let result = true;
+
+  tails.forEach((tail) => {
+    if (tail.style.backgroundColor != tailsColor) {
+      result = false;
+      return;
+    }
+  });
+
+  return result;
+}
+
+function endGame(victory) {
+  scoreEl.innerHTML = victory ? `Hai VINTO con ${currentMoves} mosse su ${schemeOnLoad.maxMoves}` : `Hai PERSO (avevi solo ${schemeOnLoad.maxMoves} mosse/a)`;
 }
