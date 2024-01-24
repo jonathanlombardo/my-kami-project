@@ -15,7 +15,7 @@ const printSchemeEl = document.querySelector("#print-scheme");
 // Filled scheme
 // let schemeOnLoad = schemes[0];
 
-let schemeOnLoad = schemes[0];
+let schemeOnLoad;
 let currentColor;
 let solveMode = true;
 let tailClickOff = false;
